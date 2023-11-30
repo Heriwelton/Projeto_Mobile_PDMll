@@ -1,98 +1,51 @@
-import React, {useState} from 'react';
-import {Text, View, StyleSheet, TextInput, Button, Image, ImageBackground} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import styles from "./src/estilos/styles";
-import MenuInicial from "./app/MenuInicial";
-import DetalhesProduto from "./app/DetalhesProduto";
-
-
-
-const MENSAGEM_CAMPO_VAZIO = "Ops!! Existem campos deixados em branco!";
-const EMAIL_PADRAO = "eve1.holt@reqres.in";
-const SENHA_PADRAO = "cityslicka";  
-
-
+import MenuInicial from "./src/app/MenuInicial";
+import DetalhesProduto from "./src/app/DetalhesProduto";
+import Categoria from "./src/app/categoria";
+import TelaLogin from "./src/app/TelaLogin";
+import CarrinhoCompras from "./src/app/CarrinhoCompras";
+import Checkout from "./src/app/Checkout";
+import Suporte from "./src/app/Suporte";
 
 const Stack = createNativeStackNavigator();
 
+const App = ({ navigation }) => {
+  return (
+    <NavigationContainer>
+    <Stack.Navigator initialRouteName="TelaLogin">
+      <Stack.Screen name="TelaLogin" component={TelaLogin} options={{ title: 'Login' }}/>
 
+      <Stack.Screen name="MenuInicial" component={MenuInicial} 
+        options={{title: 'vinhedo virtual', headerStyle: {backgroundColor: '#D3D3D3', borderBottomWidth: 2, borderBottomColor: '#000'}, headerTitleStyle: {textTransform: 'uppercase'}, 
+      }}/>
 
-function TelaLogin({ navigation }) {
-  const [email, setemail] = useState(EMAIL_PADRAO);
-  const [senha, setsenha] = useState(SENHA_PADRAO);
-
-const ValidarDetalhesProduto = async (navigation) => {
-    navigation.navigate('DetalhesProduto')
-}
-
-const ValidarLogin = async (email, senha, navigation ) => {
-  
-  if (email.trim().length === 0 || senha.trim().length === 0) {
-    alert(MENSAGEM_CAMPO_VAZIO);
-  return
-  }
-  if (SENHA_PADRAO == senha && EMAIL_PADRAO == email) {
-    navigation.navigate('MenuInicial')
-  }else{
-    alert('dados incorretos')
-  } 
-}
-
-
-return (
-    <View style={styles.container}>
-    <ImageBackground style={styles.imagemFundo} source={require("./fundo.png")}>
-        <Text style={styles.tituloLogo}>Vinhedo Virtual</Text>
-        <Image style={styles.logo} source={require("./logo.PNG")} />
-        <Text>Email:</Text>
-        <TextInput
-          style={styles.input}
-          placeholder={'Digite seu e-mail'}
-          placeholderTextColor="grey"
-          clearButtonMode="always"
-          value={email}
-          onChangeText={setemail}
-          maxLength={200}
-        />
-
-        <Text>Senha:</Text>
-        <TextInput
-          style={styles.input}
-          placeholder={'Digite sua senha'}
-          placeholderTextColor="grey"
-          clearButtonMode="always"
-          secureTextEntry={true}
-          value={senha}
-          onChangeText={setsenha}
-          maxLength={200}
-        />
-        <View style={styles.button}>
-          <Button style={styles.btnCustom} color='black'
-            onPress={() => ValidarLogin(email, senha, navigation)}
-            title="Entrar"
-          />
-        </View>
+      <Stack.Screen name="DetalhesProduto" component={DetalhesProduto}
+        options={({ route }) => ({title: 'Detalhes do produto', headerStyle: {backgroundColor: '#D3D3D3', borderBottomWidth: 2, borderBottomColor: '#000'}, headerTitleStyle: {textTransform: 'uppercase'},
+        })}
         
-        <View style={{ marginTop: 10 }}>
-        </View>
-      </ImageBackground>
-    </View>
+      />
+      <Stack.Screen name="Categoria" component={Categoria} 
+        options={{title: 'filtro avançado', headerStyle: {backgroundColor: '#D3D3D3', borderBottomWidth: 2, borderBottomColor: '#000'}, headerTitleStyle: {textTransform: 'uppercase'}, 
 
+      }}/>
 
-);
-}
+      <Stack.Screen name="CarrinhoCompras" component={CarrinhoCompras} 
+        options={{title: 'Carrinho de compras', headerStyle: {backgroundColor: '#D3D3D3', borderBottomWidth: 2, borderBottomColor: '#000'}, headerTitleStyle: {textTransform: 'uppercase'}, 
+      }}/>
 
-const App = () => {
-return (
-  <NavigationContainer>
-  <Stack.Navigator initialRouteName="TelaLogin">
-    <Stack.Screen name="TelaLogin" component={TelaLogin} options={{ title: 'Login' }}/>
-    <Stack.Screen name="MenuInicial" component={MenuInicial} options={{ title: 'VINHEDO VIRTUAL', headerStyle: {backgroundColor: '#D3D3D3'} }}/>
-    <Stack.Screen name="DetalhesProduto" component={DetalhesProduto} options={({route}) => ({ title: 'Detalhes do produto'})}/>
-  </Stack.Navigator>
-</NavigationContainer>
-);
+      <Stack.Screen name="Checkout" component={Checkout} 
+        options={{title: 'Checkout', headerStyle: {backgroundColor: '#D3D3D3', borderBottomWidth: 2, borderBottomColor: '#000'}, headerTitleStyle: {textTransform: 'uppercase'}, 
+      }}/>
+
+      <Stack.Screen name="Suporte" component={Suporte} 
+        options={{title: 'Suporte', headerStyle: {backgroundColor: '#D3D3D3', borderBottomWidth: 2, borderBottomColor: '#000'}, headerTitleStyle: {textTransform: 'uppercase'}, 
+      }}/>
+
+    </Stack.Navigator>
+  </NavigationContainer>
+
+  );
 }
 
 export default App;
